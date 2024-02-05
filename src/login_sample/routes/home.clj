@@ -10,7 +10,7 @@
   (layout/common 
    [:h1 "Welcome!!"]
    [:div#logincontainer [:h2 "Login to continue!"]
-   [:form#login {:action "/" :method "POST"}
+   [:form#login {:action "/" }
     [:p "Username"]
     [:input#uname.field {:type "text" :name "uname" }] 
     [:p "Password"]
