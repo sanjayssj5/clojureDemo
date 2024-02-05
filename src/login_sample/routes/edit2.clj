@@ -8,7 +8,6 @@
             [clojure.pprint :as pprint]
             [hiccup.page :refer [include-js]]))
 
-
 (defn user-data [[label data]]
   (list [:form {:action (str "/change" (name label))  :method "POST" :id (str (name label) "form")}
          [:p  {:class "plabel"} (clojure.string/upper-case (name label))]
@@ -21,10 +20,10 @@
         [:br]))
 
 
-(defn show-data []
+(defn show-data [usrname]
   (->> (slurp "auth1.edn")
        edn/read-string
-       (filter #(= (:uname %) (session/get :user)))
+       (filter #(= (:uname %) usrname))
        first
        :data
        (map user-data)))
@@ -33,12 +32,15 @@
   (if (nil? (session/get :user))
     (redirect "/")
     (layout/common
-     [:h1 "Welcome   "  (session/get :user)]
-     [:p  (show-data)]
-     [:p msg]
 
+     [:h1 "Welcome   "  (session/get :user)]
+     [:p  (show-data (session/get :user))]
+     [:p msg]
+     [:form#back {:action "/screen1" :method "GET"}
+      [:input {:type "submit" :value "Back"}]]
      [:form#logout {:action "/logout" :method "POST"}
       [:input {:type "submit" :value "LOGOUT"}]]
+     
      (include-js "/js/edit.js")
 
      )))
@@ -122,6 +124,7 @@
 (defroutes edit-routes2
 
   (GET "/edit2" [] (edit2))
+  
   (POST "/changename" [uname name] (changename uname name))
   (POST "/changeage" [uname age] (changeage uname age))
   (POST "/changephone" [uname phone] (changephone uname phone))
