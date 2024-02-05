@@ -1,0 +1,1 @@
+["^ ","~$wrap-forwarded-remote-addr",["^ ","~:row",5,"~:col",1,"~:fixed-arities",["~#set",[1]],"~:name","^0","~:ns","~$ring.middleware.proxy-headers","~:top-ns","^7","~:type","~:fn"],"~:filename","/home/stagewit/.m2/repository/ring/ring-headers/0.1.1/ring-headers-0.1.1.jar:ring/middleware/proxy_headers.clj"]

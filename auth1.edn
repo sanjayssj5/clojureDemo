@@ -1,0 +1,15 @@
+({:uname "user1",
+  :pass "enter",
+  :data
+  {:name "wqwq2",
+   :age "36",
+   :phone 9758452032,
+   :address "10 vckvk saassss"}}
+ {:uname "user2",
+  :pass "enter",
+  :data
+  {:name "user", :age 13, :phone 97584520, :address "10 vckvk dkm"}}
+ {:uname "user3",
+  :pass "enter",
+  :data
+  {:name "user", :age 13, :phone 97584520, :address "10 vckvk dkm"}})

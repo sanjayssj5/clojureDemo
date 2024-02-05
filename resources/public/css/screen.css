@@ -1,0 +1,33 @@
+body {
+    color: #dedbdc;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    text-align: center;
+    background-image: radial-gradient(circle, hwb(0 44% 48%) 0%, #3e3a3a 100%);
+}
+
+h1 {
+    text-align: center;
+}
+
+#logincontainer{    
+    text-align: center;
+    display: inline-block;
+    padding: 8% 15% 8% 15%;
+    border: 2px solid #e5d4d4;
+    border-radius: 100%;
+}
+
+.field{
+    border-radius: 15px;
+    line-height: 1.5rem;
+}
+
+.plabel{
+font-size: larger;
+color: rgb(208, 225, 20);
+}
+.pfield{
+    font-size: larger;
+
+}
