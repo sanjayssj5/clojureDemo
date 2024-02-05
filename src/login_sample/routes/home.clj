@@ -19,7 +19,7 @@
     [:p msg]
     [:br]
     [:input#loginbtn {:type "submit" :value "Login" }]]]
-   (include-js "/js/loginValidate.js")
+   (include-js "/js/loginValidate.js" "/js/htmx.min.js" )
    ))
 
 
@@ -29,7 +29,7 @@
 
 (defn validate
   [uname pass]
-  (->> (slurp "auth.edn")
+  (->> (slurp "auth1.edn")
        edn/read-string
        (filter #(= (:uname %) uname))
        first
