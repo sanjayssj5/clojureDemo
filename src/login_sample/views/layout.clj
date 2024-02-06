@@ -6,7 +6,7 @@
     [:head
      [:title "Welcome to login-sample"]
      (include-css "/css/screen.css")
-     ;;(include-js  "/js/htmx.min.js" )
+     (include-js  "/js/htmx.min.js" )
      ]
     [:body body]
    

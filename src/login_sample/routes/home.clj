@@ -19,7 +19,7 @@
     [:p msg]
     [:br]
     [:input#loginbtn {:type "submit" :value "Login" }]]]
-   (include-js "/js/loginValidate.js" "/js/htmx.min.js" )
+   (include-js "/js/loginValidate.js" )
    ))
 
 
