@@ -4,28 +4,35 @@
             [clojure.edn :as edn]
             [noir.response :refer [redirect]]
             [noir.session :as session]
-            [hiccup.page :refer [include-js]]))
+            [hiccup.page :refer [html5 include-js]]))
 
-(defn home [& [msg]]
+
+(defn login [& [msg]]
+  (html5
+   [:div#logincontainer [:h2 "Login to continue!"]
+
+    [:form#login {:hx-post "/" :hx-swap "innerHTML" :hx-target "#maincontainer"}
+     [:p "Username"]
+     [:input#uname.field {:type "text" :name "uname"}]
+     [:p "Password"]
+     [:input#password.field {:type "password" :name "pass"}]
+     [:br]
+     [:p#target-notify msg]
+     [:br]
+     [:input#loginbtn {:type "submit" :value "Login"}]]]))
+
+
+
+(defn home 
+  []
   (layout/common 
-   
-[:div#maincontainer 
- [:h1 "Welcome!!"]
- [:div#logincontainer [:h2 "Login to continue!"]
-    
-   [:form#login {:hx-post "/" :hx-target "#maincontainer"}
-    [:p "Username"]
-    [:input#uname.field {:type "text" :name "uname" }] 
-    [:p "Password"]
-    [:input#password.field {:type "password" :name "pass"} ]
-    [:br]
-    [:p#target-notify msg]
-    [:br]
-    [:input#loginbtn {:type "submit" :value "Login" }]]]]
+ [:div#maincontainer 
+  
+  [:h1 "Welcome!!"]
+  (login)]
    (include-js "/js/loginValidate.js")
   
    ))
-
 
 
 
@@ -38,12 +45,12 @@
        (filter #(= (:uname %) uname))
        first
        ((fn [data] (if (nil? data)
-                       (home "User doesnt exist!!!")
+                       (login "User doesnt exist!!!")
                        (if (= (:pass data) pass)
                          ;;(str "Welcome  " (:name data))
                          (do (session/put! :user uname) 
                              (redirect "/screen1"))
-                         (home "Incorrect Password")))))
+                         (login "Incorrect Password")))))
        ))
 (defroutes home-routes
   (GET "/" [] (home ))

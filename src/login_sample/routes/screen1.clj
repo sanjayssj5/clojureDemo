@@ -3,8 +3,8 @@
             [login-sample.views.layout :as layout]
             [clojure.edn :as edn]
             [noir.response :refer [redirect]]
-            [noir.session :as session]))
-
+            [noir.session :as session]
+            [hiccup.page :refer [html5]]))
 
 
 (defn user-data [[label data]]
@@ -25,7 +25,7 @@
 (defn screen1 []
   (if (nil? (session/get :user))
     (redirect "/")
-(  layout/common   [:div#screen1 
+( html5   [:div#screen1 
      [:h1 "Welcome   "  (session/get :user)]
      [:p  (show-data)]
      [:form#edit-btn {:action "/edit2" :method "GET"}
