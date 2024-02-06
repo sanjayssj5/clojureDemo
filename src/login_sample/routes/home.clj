@@ -8,18 +8,22 @@
 
 (defn home [& [msg]]
   (layout/common 
-   [:h1 "Welcome!!"]
-   [:div#logincontainer [:h2 "Login to continue!"]
-   [:form#login {:action "/" }
+   
+[:div#maincontainer 
+ [:h1 "Welcome!!"]
+ [:div#logincontainer [:h2 "Login to continue!"]
+    
+   [:form#login {:hx-post "/" :hx-target "#maincontainer"}
     [:p "Username"]
     [:input#uname.field {:type "text" :name "uname" }] 
     [:p "Password"]
     [:input#password.field {:type "password" :name "pass"} ]
     [:br]
-    [:p msg]
+    [:p#target-notify msg]
     [:br]
-    [:input#loginbtn {:type "submit" :value "Login" }]]]
+    [:input#loginbtn {:type "submit" :value "Login" }]]]]
    (include-js "/js/loginValidate.js")
+  
    ))
 
 
@@ -29,7 +33,7 @@
 
 (defn validate
   [uname pass]
-  (->> (slurp "auth.edn")
+  (->> (slurp "auth1.edn")
        edn/read-string
        (filter #(= (:uname %) uname))
        first

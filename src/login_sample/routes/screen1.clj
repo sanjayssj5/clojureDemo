@@ -25,16 +25,16 @@
 (defn screen1 []
   (if (nil? (session/get :user))
     (redirect "/")
-    (layout/common 
+(  layout/common   [:div#screen1 
      [:h1 "Welcome   "  (session/get :user)]
      [:p  (show-data)]
      [:form#edit-btn {:action "/edit2" :method "GET"}
       [:input {:type "submit" :value "EDIT"}]]
      [:form#logout {:action "/logout" :method "POST"}
-      [:input {:type "submit" :value "LOGOUT"}]]
+      [:input {:type "submit" :value "LOGOUT"}]]])
 
      
-     )))
+     ))
 
 
 
