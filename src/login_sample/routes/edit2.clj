@@ -17,7 +17,7 @@
                             "name" {:required "" :minlength "3" :maxlength "40"} 
                             "age" {:required "" :minlength "1" :maxlength "2"}
                             "phone" {:required "" :minlength "10" :maxlength "10" :pattern "[1-9]{1}[0-9]{9}"}
-                            "address" { :minlength "5" :maxlength "70" }
+                            "address" { :maxlength "70" }
                             nil))]
          [:button {:hx-on:click  (str  (name label) "validate(event); return false;") :hx-post (str "/change" (name label)) :hx-swap"outerHTML" 
                    :hx-target "#edit-body" :style "display:none"   :id (str (name label) "sub") 

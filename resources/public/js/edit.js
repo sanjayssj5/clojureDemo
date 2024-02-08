@@ -13,7 +13,7 @@ function namevalidate(event){
     const nametxtbox= document.getElementById("nametxtbox");
     var valid = nametxtbox.checkValidity();
     if (!valid){
-        alert("Name is Invalid!!");
+        alert("Name is Invalid!! Minimum 3 Characters reqd");
         htmx.trigger('#namesub', 'htmx:abort')
     }
 

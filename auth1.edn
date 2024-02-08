@@ -1,10 +1,10 @@
 ({:uname "user1",
   :pass "enter",
   :data
-  {:name "sasasaq",
-   :age "21",
-   :phone "1234567856",
-   :address "0000000000000115151151"}}
+  {:name "sam",
+   :age "44",
+   :phone "1234567455",
+   :address "10 po maldas22"}}
  {:uname "user2",
   :pass "enter",
   :data
