@@ -10,7 +10,7 @@
 ;   - See https://calva.io/connect-sequences/
 ; 
 ; Starting Jack-in Terminal: pushd /home/stagewit/login-sample ; lein update-in :dependencies conj '[nrepl,"1.0.0"]' -- update-in :plugins conj '[cider/cider-nrepl,"0.28.5"]' -- update-in '[:repl-options,:nrepl-middleware]' conj '["cider.nrepl/cider-middleware"]' -- with-profile +dev repl :headless ; popd
-; Using host:port 127.0.0.1:41777 ...
+; Using host:port 127.0.0.1:36041 ...
 ; Hooking up nREPL sessions ...
 ; Connected session: clj
 ; TIPS:
@@ -26,13 +26,67 @@ clj꞉user꞉>  ; Use `alt+enter` to evaluate
 clj꞉user꞉> 
 ; Jack-in done.
 clj꞉user꞉> 
-(def x {:a 1 :b { :c 1 :g 34}})
+(#(case  %
+    "name" (str ":required "  \" \")
+    "age" :required)
+ "name")
+:required
+clj꞉user꞉> 
+":required\"\""
+clj꞉user꞉> 
+":required \"\""
+clj꞉user꞉> 
+(#(if (= % "address")
+   (keyword 'required  \" \")
+   ("no")
+   )"address" )
+; Execution error (ArityException) at user/eval12885 (form-init8009108878371240891.clj:39).
+; Wrong number of args (0) passed to: user/eval12885/fn--12886
+clj꞉user꞉> 
+; Execution error (ArityException) at user/eval12891 (form-init8009108878371240891.clj:39).
+; Wrong number of args (0) passed to: user/eval12891/fn--12892
+clj꞉user꞉> 
+; Execution error (ClassCastException) at user/eval12897$fn (form-init8009108878371240891.clj:39).
+; class java.lang.String cannot be cast to class clojure.lang.IFn (java.lang.String is in module java.base of loader 'bootstrap'; clojure.lang.IFn is in unnamed module of loader 'app')
+clj꞉user꞉> 
+":required \"\""
+clj꞉user꞉> 
+\"
+clj꞉user꞉> 
+; Execution error (ArityException) at user/eval12919$fn (form-init8009108878371240891.clj:40).
+; Wrong number of args (3) passed to: clojure.core/keyword
+clj꞉user꞉> 
+; Execution error (ArityException) at user/eval12927$fn (form-init8009108878371240891.clj:40).
+; Wrong number of args (3) passed to: clojure.core/keyword
+clj꞉user꞉> 
+(#(if (= % "address")
+    (keyword ":required"  \" \")
+    ("no")) "address")
+; Execution error (ArityException) at user/eval12973$fn (form-init8009108878371240891.clj:63).
+; Wrong number of args (3) passed to: clojure.core/keyword
+clj꞉user꞉> 
+(into {:b 1 :c [1 2 3]} nil)
+; Execution error (IllegalArgumentException) at user/eval12977 (form-init8009108878371240891.clj:68).
+; Don't know how to create ISeq from: clojure.lang.Keyword
+clj꞉user꞉> 
+{:a 1}
+clj꞉user꞉> 
+{:b 1, :c [1 2 3], :a 1}
+clj꞉user꞉> 
+{:b 1, :c [1 2 3]}
+clj꞉user꞉> 
+(into {:b 1 :c [1 2 3]} (case x
+                          "name" {:required "" :minlength "3" :maxlength "40"} nil))
+; Syntax error compiling at (output.calva-repl:78:25).
+; Unable to resolve symbol: x in this context
+clj꞉user꞉> 
+(def x "name")
 #'user/x
 clj꞉user꞉> 
-(assoc (:b x) :g 5)
-{:c 1, :g 5}
+{:b 1, :c [1 2 3], :required "", :minlength "3", :maxlength "40"}
 clj꞉user꞉> 
-(print x)
-{:a 1, :b {:c 1, :g 34}}nil
+(= 1 1 1)
+true
 clj꞉user꞉> 
-; nREPL Connection was closed
+true
+clj꞉user꞉> 

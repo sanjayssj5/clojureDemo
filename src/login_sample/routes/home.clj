@@ -3,8 +3,7 @@
             [login-sample.views.layout :as layout]
             [clojure.edn :as edn]
             [noir.response :refer [redirect]]
-            [noir.session :as session]
-            [hiccup.page :refer [include-js]]))
+            [noir.session :as session]))
 
 (defn home [& [msg]]
   (layout/common 
@@ -12,14 +11,13 @@
    [:div#logincontainer [:h2 "Login to continue!"]
    [:form#login {:action "/" :method "POST"}
     [:p "Username"]
-    [:input#uname.field {:type "text" :name "uname" }] 
+    [:input#uname.field {:type "text" :name "uname" :required ""}] 
     [:p "Password"]
-    [:input#password.field {:type "password" :name "pass"} ]
+    [:input#password.field {:type "password" :name "pass" :required ""} ]
     [:br]
     [:p msg]
     [:br]
     [:input#loginbtn {:type "submit" :value "Login" }]]]
-   (include-js "/js/loginValidate.js" )
    ))
 
 

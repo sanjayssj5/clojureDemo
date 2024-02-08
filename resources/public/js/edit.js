@@ -1,63 +1,75 @@
 
-const namebtn = document.getElementById("namebtn");
 
-
-namebtn.addEventListener("click", function(e) {
+function namechng(){
 
 const namechngbtn = document.getElementById("namesub");
-
 const nametxtbox= document.getElementById("nametxtbox");
-const namelabel = document.getElementById("nametxt");
 nametxtbox.setAttribute("type","text");
-namelabel.setAttribute("type","hidden");
-namechngbtn.setAttribute("type","submit");
-});
+namechngbtn.style.display ="inline-block";
+}
+
+function namevalidate(event){
+    event.preventDefault();
+    const nametxtbox= document.getElementById("nametxtbox");
+    var valid = nametxtbox.checkValidity();
+    if (!valid){
+        alert("Name is Invalid!!");
+        htmx.trigger('#namesub', 'htmx:abort')
+    }
+
+}
 
 
+function agechng(){
+
+    const agechngbtn = document.getElementById("agesub");
+    const agetxtbox= document.getElementById("agetxtbox");
+    agetxtbox.setAttribute("type","text");
+    agechngbtn.style.display ="inline-block";
+}
+    
 
 
-const agebtn = document.getElementById("agebtn");
+function agevalidate(){
+    const agetxtbox= document.getElementById("agetxtbox");
+    var valid = agetxtbox.checkValidity();
+    if (!valid){
+    alert("Age is Invalid!!");
+    htmx.trigger('#agesub', 'htmx:abort')}
+}
 
 
-agebtn.addEventListener("click", function(e) {
+function phonechng(){
 
-const agechngbtn = document.getElementById("agesub");
+    const phonechngbtn = document.getElementById("phonesub");
+    const phonetxtbox= document.getElementById("phonetxtbox");
+    phonetxtbox.setAttribute("type","text");
+    phonechngbtn.style.display ="inline-block";
+    }
+    
 
-const agetxtbox= document.getElementById("agetxtbox");
-const agelabel = document.getElementById("agetxt");
-agetxtbox.setAttribute("type","text");
-agelabel.setAttribute("type","hidden");
-agechngbtn.setAttribute("type","submit");
-});
-
-
-
-
-const phonebtn = document.getElementById("phonebtn");
-
-
-phonebtn.addEventListener("click", function(e) {
-
-const phonechngbtn = document.getElementById("phonesub");
-
-const phonetxtbox= document.getElementById("phonetxtbox");
-const phonelabel = document.getElementById("phonetxt");
-phonetxtbox.setAttribute("type","text");
-phonelabel.setAttribute("type","hidden");
-phonechngbtn.setAttribute("type","submit");
-});
+function phonevalidate(){
+    const phonetxtbox= document.getElementById("phonetxtbox");
+    var valid = phonetxtbox.checkValidity();
+    if (!valid){
+    alert("Phone is Invalid!!");
+    htmx.trigger('#phonesub', 'htmx:abort')}
+}
 
 
-const addressbtn = document.getElementById("addressbtn");
+    
+function addresschng(){
 
-
-addressbtn.addEventListener("click", function(e) {
-
-const addresschngbtn = document.getElementById("addresssub");
-
-const addresstxtbox= document.getElementById("addresstxtbox");
-const addresslabel = document.getElementById("addresstxt");
-addresstxtbox.setAttribute("type","text");
-addresslabel.setAttribute("type","hidden");
-addresschngbtn.setAttribute("type","submit");
-});
+    const addresschngbtn = document.getElementById("addresssub");
+    const addresstxtbox= document.getElementById("addresstxtbox");
+    addresstxtbox.setAttribute("type","text");
+    addresschngbtn.style.display ="inline-block";
+    }
+    
+function addressvalidate(){
+    const addresstxtbox= document.getElementById("addresstxtbox");
+    var valid = addresstxtbox.checkValidity();
+    if (!valid){
+    alert("Address is Invalid!!");
+    htmx.trigger('#addresssub', 'htmx:abort')}
+}
