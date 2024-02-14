@@ -18,9 +18,16 @@
                                :value data 
                                :id (str (name label) "txtbox")
                                }(case (name label)
-                                  "name" {:required "" :minlength "3" :maxlength "40"} 
-                                  "age" {:required "" :minlength "1" :maxlength "2"}
-                                  "phone" {:required "" :minlength "10" :maxlength "10" :pattern "[1-9]{1}[0-9]{9}"}
+                                  "name" {:required "" 
+                                          :minlength "3" 
+                                          :maxlength "40"} 
+                                  "age" {:required "" 
+                                         :minlength "1" 
+                                         :maxlength "2"}
+                                  "phone" {:required "" 
+                                           :minlength "10" 
+                                           :maxlength "10" 
+                                           :pattern "[1-9]{1}[0-9]{9}"}
                                   "address" { :maxlength "70" }
                                   nil))]
           [:button {:hx-on:click  (str  (name label) "validate(event); return false;")
@@ -100,50 +107,50 @@
 (defn changename
   [uname name]
   (cond
-    (nil? (validate uname)) (edit-body (str "User credentials Invalid!!" uname name))
-    (empty? uname) (edit-body "Username is empty.")
-    (empty? name) (edit-body  "Name is empty.")
-    (> (count uname) 30) (edit-body "Invalid User Name. Max characters(30)")
-    (> (count name) 40) (edit-body "Invalid  Name. Max characters(40)")
-    (nil? (re-seq #"[a-zA-Z]{3,30}" uname)) (edit-body "Invalid User Name")
-    (nil? (re-seq #"[a-zA-Z]{3,40}" name)) (edit-body "Invalid Name.")
+    (nil? (validate uname)) (html5 [:p uname] [:p "User credentials Invalid!!"])
+    (empty? uname) (html5 [:p uname] [:p "Username is empty."]) 
+    (> (count uname) 30) (html5 [:p uname] [:p "Invalid User Name. Max characters(30)"])
+    (nil? (re-seq #"[a-zA-Z]{3,30}" uname)) (html5 [:p uname] [:p "Invalid User Name"])
+    (empty? name) (html5 [:p name] [:p "Name is empty."])
+    (> (count name) 40) (html5 [:p name] [:p "Invalid  Name. Max characters(40)"])
+    (nil? (re-seq #"[a-zA-Z]{3,40}" name)) (html5 [:p name] [:p "Invalid Name."])
     :else (change-data uname (keyword "name") name )))
 
 (defn changeage
   [uname age]
   (cond
-    (nil? (validate uname)) (edit-body "User credentials Invalid!!")
-    (empty? uname) (edit-body "Username is empty.")
-    (empty? age) (edit-body "Age is empty. Enter a value!")
-    (> (count uname) 30) (edit-body "Invalid User Name. Max characters(30)")
-    (> (count age) 2) (edit-body "Invalid Age.")
-    (nil? (re-seq #"[a-zA-Z]{3,30}" uname)) (edit-body "Invalid User Name")
-    (nil? (re-seq #"[0-9]{2}" age)) (edit-body "Invalid Age") 
-    (or (< (Integer/parseInt age) 6) (> (Integer/parseInt age) 99)) (edit-body "Age should be in between limits 6 and 99")
+    (nil? (validate uname)) (html5 [:p uname] [:p "User credentials Invalid!!"])
+    (empty? uname) (html5 [:p uname] [:p "Username is empty."])
+    (> (count uname) 30) (html5 [:p uname] [:p "Invalid User Name. Max characters(30)"])
+    (nil? (re-seq #"[a-zA-Z]{3,30}" uname)) (html5 [:p uname] [:p "Invalid User Name"])
+    (empty? age) (html5 [:p age] [:p "Age is empty. Enter a value!"]) 
+    (> (count age) 2) (html5 [:p age] [:p "Invalid Age."]) 
+    (nil? (re-seq #"[0-9]{2}" age)) ( html5 [:p age] [:p "Invalid Age"]  ) 
+    (or (< (Integer/parseInt age) 6) (> (Integer/parseInt age) 99)) (html5 [:p age] [:p "Age should be in between limits 6 and 99"])
     :else (change-data uname (keyword "age") age)))
 
 
 (defn changephone
   [uname phone]
-  (cond
-    (nil? (validate uname)) (edit-body "User credentials Invalid!!")
-    (empty? uname) (edit-body "Username is empty.") 
-    (empty? phone) (edit-body "Phone number is empty. Enter a value!")
-    (> (count uname) 30) (edit-body "Invalid User Name. Max characters(30)") 
-    (> (count phone) 10) (edit-body "Invalid Phone. Max characters(10)")
-    (nil? (re-seq #"[a-zA-Z]{3,30}" uname)) (edit-body "Invalid User Name")
-    (nil? (re-seq #"[1-9]{1}[0-9]{9}" phone)) (edit-body "Invalid Phone Number")
+  (cond 
+    (nil? (validate uname)) (html5 [:p uname] [:p "User credentials Invalid!!"])
+    (empty? uname) (html5 [:p uname] [:p "Username is empty."])
+    (> (count uname) 30) (html5 [:p uname] [:p "Invalid User Name. Max characters(30)"])
+    (nil? (re-seq #"[a-zA-Z]{3,30}" uname)) (html5 [:p uname] [:p "Invalid User Name"])
+    (empty? phone) (html5 [:p phone] [:p "Phone number is empty. Enter a value!"])
+    (> (count phone) 10) (html5 [:p phone] [:p "Invalid Phone. Max characters(10)"])
+    (nil? (re-seq #"[1-9]{1}[0-9]{9}" phone)) (html5 [:p phone] [:p "Invalid Phone Number"])
     :else (change-data uname (keyword "phone") phone)))
 
 
 (defn changeaddress
   [uname address]
-  (cond
-    (nil? (validate uname)) (edit-body "User credentials Invalid!!")
-    (empty? uname) (edit-body "Username is empty.")
-    (> (count uname) 30) (edit-body "Invalid User Name. Max characters(30)")
-    (> (count address) 70) (edit-body "Invalid  Address. Max characters(70)")
-    (nil? (re-seq #"[a-zA-Z]{3,30}" uname)) (edit-body "Invalid User Name")
+  (cond 
+    (nil? (validate uname)) (html5 [:p uname] [:p "User credentials Invalid!!"])
+    (empty? uname) (html5 [:p uname] [:p "Username is empty."])
+    (> (count uname) 30) (html5 [:p uname] [:p "Invalid User Name. Max characters(30)"])
+    (nil? (re-seq #"[a-zA-Z]{3,30}" uname)) (html5 [:p uname][:p "Invalid User Name"])
+    (> (count address) 70) (html5 [:p address] [:p "Invalid  Address. Max characters(70)"])
     :else (change-data uname (keyword "address") address)))
 
 
