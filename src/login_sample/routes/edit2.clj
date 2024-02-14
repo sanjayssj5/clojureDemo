@@ -32,8 +32,8 @@
                                   nil))]
           [:button {:hx-on:click  (str  (name label) "validate(event); return false;")
                     :hx-post (str "/change" (name label)) 
-                    :hx-swap "innerHTML" 
-                    :hx-target (str "#" (name label)) 
+                    ;;:hx-swap "none" 
+                    ;;:hx-target (str "#" (name label)) 
                     :style "display:none"  
                     :id (str (name label) "sub") 
                     :hx-include (str " [name = 'uname'] , [name = '" (name label) "']") } 
@@ -57,10 +57,11 @@
   [& [msg]]
   (html5  [:div#edit-body 
            [:p  (show-data (session/get :user))]
-           [:p msg]]))
+           [:p#error msg]]))
 
 
-(defn edit2 []
+(defn edit2 
+  []
   (if (nil? (session/get :user))
     (redirect "/")
     (layout/common
@@ -101,20 +102,22 @@
                   record)))
        (filter identity)
        (#(pprint/pprint % (io/writer "auth1.edn"))))
-  (html5 [:p data]))
+  (html5 [(keyword (str "div#" (name label))) {:hx-swap-oob "innerHTML"} [:p data]]
+         [:p#error {:hx-swap-oob "outerHTML"} ""]))
 
 
 (defn changename
   [uname name]
   (cond
-    (nil? (validate uname)) (html5 [:p uname] [:p "User credentials Invalid!!"])
-    (empty? uname) (html5 [:p uname] [:p "Username is empty."]) 
+    (nil? (validate uname))
+    (html5 [:p uname] [:p "User credentials Invalid!!"])
+    (empty? uname) (html5 [:p uname] [:p "Username is empty."])
     (> (count uname) 30) (html5 [:p uname] [:p "Invalid User Name. Max characters(30)"])
     (nil? (re-seq #"[a-zA-Z]{3,30}" uname)) (html5 [:p uname] [:p "Invalid User Name"])
-    (empty? name) (html5 [:p name] [:p "Name is empty."])
-    (> (count name) 40) (html5 [:p name] [:p "Invalid  Name. Max characters(40)"])
-    (nil? (re-seq #"[a-zA-Z]{3,40}" name)) (html5 [:p name] [:p "Invalid Name."])
-    :else (change-data uname (keyword "name") name )))
+    (empty? name) (html5  [:p#error  {:hx-swap-oob "outerHTML"} "Name is empty."])
+    (> (count name) 40) (html5  [:p#error  {:hx-swap-oob "outerHTML"} "Invalid  Name. Max characters(40)"])
+    (nil? (re-seq #"[a-zA-Z]{3,40}" name)) (html5 [:p#error  {:hx-swap-oob "outerHTML"} "Invalid Name."])
+    :else (change-data uname (keyword "name") name)))
 
 (defn changeage
   [uname age]
@@ -123,10 +126,10 @@
     (empty? uname) (html5 [:p uname] [:p "Username is empty."])
     (> (count uname) 30) (html5 [:p uname] [:p "Invalid User Name. Max characters(30)"])
     (nil? (re-seq #"[a-zA-Z]{3,30}" uname)) (html5 [:p uname] [:p "Invalid User Name"])
-    (empty? age) (html5 [:p age] [:p "Age is empty. Enter a value!"]) 
-    (> (count age) 2) (html5 [:p age] [:p "Invalid Age."]) 
-    (nil? (re-seq #"[0-9]{2}" age)) ( html5 [:p age] [:p "Invalid Age"]  ) 
-    (or (< (Integer/parseInt age) 6) (> (Integer/parseInt age) 99)) (html5 [:p age] [:p "Age should be in between limits 6 and 99"])
+    (empty? age) (html5  [:p#error  {:hx-swap-oob "outerHTML"} "Age is empty. Enter a value!"]) 
+    (> (count age) 2) (html5  [:p#error  {:hx-swap-oob "outerHTML"} "Invalid Age."]) 
+    (nil? (re-seq #"[0-9]{2}" age)) (html5 [:p#error  {:hx-swap-oob "outerHTML"} "Invalid Age"]) 
+    (or (< (Integer/parseInt age) 6) (> (Integer/parseInt age) 99)) (html5  [:p#error  {:hx-swap-oob "outerHTML"} "Age should be in between limits 6 and 99"])
     :else (change-data uname (keyword "age") age)))
 
 
@@ -137,9 +140,9 @@
     (empty? uname) (html5 [:p uname] [:p "Username is empty."])
     (> (count uname) 30) (html5 [:p uname] [:p "Invalid User Name. Max characters(30)"])
     (nil? (re-seq #"[a-zA-Z]{3,30}" uname)) (html5 [:p uname] [:p "Invalid User Name"])
-    (empty? phone) (html5 [:p phone] [:p "Phone number is empty. Enter a value!"])
-    (> (count phone) 10) (html5 [:p phone] [:p "Invalid Phone. Max characters(10)"])
-    (nil? (re-seq #"[1-9]{1}[0-9]{9}" phone)) (html5 [:p phone] [:p "Invalid Phone Number"])
+    (empty? phone) (html5 [:p#error  {:hx-swap-oob "outerHTML"} "Phone number is empty. Enter a value!"])
+    (> (count phone) 10) (html5  [:p#error  {:hx-swap-oob "outerHTML"} "Invalid Phone. Max characters(10)"])
+    (nil? (re-seq #"[1-9]{1}[0-9]{9}" phone)) (html5 [:p#error  {:hx-swap-oob "outerHTML"} "Invalid Phone Number"])
     :else (change-data uname (keyword "phone") phone)))
 
 
@@ -150,7 +153,7 @@
     (empty? uname) (html5 [:p uname] [:p "Username is empty."])
     (> (count uname) 30) (html5 [:p uname] [:p "Invalid User Name. Max characters(30)"])
     (nil? (re-seq #"[a-zA-Z]{3,30}" uname)) (html5 [:p uname][:p "Invalid User Name"])
-    (> (count address) 70) (html5 [:p address] [:p "Invalid  Address. Max characters(70)"])
+    (> (count address) 70) (html5  [:p#error  {:hx-swap-oob "outerHTML"} "Invalid  Address. Max characters(70)"])
     :else (change-data uname (keyword "address") address)))
 
 

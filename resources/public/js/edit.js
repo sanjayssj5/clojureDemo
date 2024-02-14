@@ -6,6 +6,8 @@ const namechngbtn = document.getElementById("namesub");
 const nametxtbox= document.getElementById("nametxtbox");
 nametxtbox.setAttribute("type","text");
 namechngbtn.style.display ="inline-block";
+namechngbtn.innerHTML = "Submit";
+
 }
 
 function namevalidate(event){
@@ -30,6 +32,8 @@ function agechng(){
     const agetxtbox= document.getElementById("agetxtbox");
     agetxtbox.setAttribute("type","text");
     agechngbtn.style.display ="inline-block";
+    agechngbtn.innerHTML = "Submit";
+
 }
     
 
@@ -54,6 +58,8 @@ function phonechng(){
     const phonetxtbox= document.getElementById("phonetxtbox");
     phonetxtbox.setAttribute("type","text");
     phonechngbtn.style.display ="inline-block";
+    phonechngbtn.innerHTML = "Submit";
+
     }
     
 
@@ -79,6 +85,8 @@ function addresschng(){
     const addresstxtbox= document.getElementById("addresstxtbox");
     addresstxtbox.setAttribute("type","text");
     addresschngbtn.style.display ="inline-block";
+    addresschngbtn.innerHTML = "Submit";
+
     }
     
 function addressvalidate(){
