@@ -7,22 +7,24 @@
 
 
 
-(defn user-data [[label data]]
- (list [:p.plabel (clojure.string/upper-case (name label))]
+(defn user-data 
+  [[label data]]
+  (list [:p.plabel (clojure.string/upper-case (name label))]
   [:p.pfield (str data)]
   [:br]))
 
 
-(defn show-data []
+(defn show-data 
+  []
   (->> (slurp "auth1.edn")
        edn/read-string
        (filter #(= (:uname %) (session/get :user)))
        first
        :data
-       (map user-data) 
-       ))
+       (map user-data)))
 
-(defn screen1 []
+(defn screen1 
+  []
   (if (nil? (session/get :user))
     (redirect "/")
     (layout/common 
@@ -31,15 +33,11 @@
      [:form#edit-btn {:action "/edit2" :method "GET"}
       [:input {:type "submit" :value "EDIT"}]]
      [:form#logout {:action "/logout" :method "POST"}
-      [:input {:type "submit" :value "LOGOUT"}]]
-
-     
-     )))
+      [:input {:type "submit" :value "LOGOUT"}]])))
 
 
 
 (defroutes screen1-routes
 
   (GET "/screen1" [] (screen1))
-  (POST "/logout" [] (session/clear!) (redirect "/"))
-  )
+  (POST "/logout" [] (session/clear!) (redirect "/")))

@@ -16,7 +16,11 @@ function namevalidate(event){
         alert("Name is Invalid!! Minimum 3 Characters reqd");
         htmx.trigger('#namesub', 'htmx:abort')
     }
-
+    else{
+        nametxtbox.setAttribute("type","hidden");
+        const namechngbtn = document.getElementById("namesub");
+        namechngbtn.style.display ="none";
+    }
 }
 
 
@@ -36,6 +40,11 @@ function agevalidate(){
     if (!valid){
     alert("Age is Invalid!!");
     htmx.trigger('#agesub', 'htmx:abort')}
+    else{
+        agetxtbox.setAttribute("type","hidden");
+        const agechngbtn = document.getElementById("agesub");
+        agechngbtn.style.display ="none";
+    }
 }
 
 
@@ -54,6 +63,12 @@ function phonevalidate(){
     if (!valid){
     alert("Phone is Invalid!!");
     htmx.trigger('#phonesub', 'htmx:abort')}
+    else{
+        phonetxtbox.setAttribute("type","hidden");
+        const phonechngbtn = document.getElementById("phonesub");
+        phonechngbtn.style.display ="none";
+    }
+
 }
 
 
@@ -72,4 +87,9 @@ function addressvalidate(){
     if (!valid){
     alert("Address is Invalid!!");
     htmx.trigger('#addresssub', 'htmx:abort')}
+    else{
+        addresstxtbox.setAttribute("type","hidden");
+        const addresschngbtn = document.getElementById("addresssub");
+        addresschngbtn.style.display ="none";
+    }
 }

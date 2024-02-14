@@ -8,25 +8,37 @@
             [clojure.pprint :as pprint]
             [hiccup.page :refer [html5 include-js]]))
 
-(defn user-data [[label data]]
+(defn user-data 
+  [[label data]]
   (list ;;[:form {:hx-post (str "/change" (name label)) :hx-include "[name= 'age']" :hx-target "body" :hx-swap "innerHTML"  :id (str (name label) "form")}]
-         [:p  {:class "plabel"} (clojure.string/upper-case (name label))]
-         [:p  {:class "pfield" :id (str (name label) "txt")} (str data)] 
-         [:input.field (into {:type "hidden" :name label :value data :id (str (name label) "txtbox")
-                        } (case (name label)
-                            "name" {:required "" :minlength "3" :maxlength "40"} 
-                            "age" {:required "" :minlength "1" :maxlength "2"}
-                            "phone" {:required "" :minlength "10" :maxlength "10" :pattern "[1-9]{1}[0-9]{9}"}
-                            "address" { :maxlength "70" }
-                            nil))]
-         [:button {:hx-on:click  (str  (name label) "validate(event); return false;") :hx-post (str "/change" (name label)) :hx-swap"outerHTML" 
-                   :hx-target "#edit-body" :style "display:none"   :id (str (name label) "sub") 
-                    :hx-include (str " [name = 'uname'] , [name = '" (name label) "']") } "Submit"]
-        [:button {:id (str (name label) "btn") :onclick (str (name label) "chng()")} "Change"]
-        [:br]))
+          [:p  {:class "plabel"} (clojure.string/upper-case (name label))]
+          [(keyword (str "div#" (name label))) [:p   (str data)] ]
+          [:input.field (into {:type "hidden" 
+                               :name label 
+                               :value data 
+                               :id (str (name label) "txtbox")
+                               }(case (name label)
+                                  "name" {:required "" :minlength "3" :maxlength "40"} 
+                                  "age" {:required "" :minlength "1" :maxlength "2"}
+                                  "phone" {:required "" :minlength "10" :maxlength "10" :pattern "[1-9]{1}[0-9]{9}"}
+                                  "address" { :maxlength "70" }
+                                  nil))]
+          [:button {:hx-on:click  (str  (name label) "validate(event); return false;")
+                    :hx-post (str "/change" (name label)) 
+                    :hx-swap "innerHTML" 
+                    :hx-target (str "#" (name label)) 
+                    :style "display:none"  
+                    :id (str (name label) "sub") 
+                    :hx-include (str " [name = 'uname'] , [name = '" (name label) "']") } 
+           "Submit"]
+          [:button {:id (str (name label) "btn")
+                    :onclick (str (name label) "chng()")} 
+           "Change"]
+          [:br]))
 
 
-(defn show-data [usrname]
+(defn show-data 
+  [usrname]
   (->> (slurp "auth1.edn")
        edn/read-string
        (filter #(= (:uname %) usrname))
@@ -36,26 +48,31 @@
 
 (defn edit-body
   [& [msg]]
-  (html5  [:div#edit-body [:p  (show-data (session/get :user))]
-           [:p msg]]
-               
-)
-  )
+  (html5  [:div#edit-body 
+           [:p  (show-data (session/get :user))]
+           [:p msg]]))
+
 
 (defn edit2 []
   (if (nil? (session/get :user))
     (redirect "/")
     (layout/common
-[:h1 "Welcome   "  (session/get :user)] 
- [:input.field {:type "hidden" :name "uname" :value (session/get :user)}]
- (edit-body)
-     
-     
-[:form#back {:action "/screen1" :method "GET"}
- [:input {:type "submit" :value "Back"}]]
-[:form#logout {:action "/logout" :method "POST"}
- [:input {:type "submit" :value "LOGOUT"}]]
-    (include-js  "/js/edit.js") )))
+     [:h1 "Welcome   "  (session/get :user)]
+     [:input.field {:type "hidden" 
+                    :name "uname" 
+                    :value (session/get :user)}]
+     (edit-body)
+
+
+     [:form#back {:action "/screen1"
+                  :method "GET"}
+      [:input {:type "submit" 
+               :value "Back"}]]
+     [:form#logout {:action "/logout" 
+                    :method "POST"}
+      [:input {:type "submit" 
+               :value "LOGOUT"}]]
+     (include-js  "/js/edit.js"))))
 
 
 (defn validate
@@ -70,13 +87,14 @@
 
   (->> (slurp "auth1.edn")
        edn/read-string
-       (map (fn [record]
-              (if (= (:uname record) uname )
-                (assoc record :data (assoc (:data record ) label data))
-                record)))
+       (map (fn 
+              [record]
+                (if (= (:uname record) uname )
+                  (assoc record :data (assoc (:data record ) label data))
+                  record)))
        (filter identity)
        (#(pprint/pprint % (io/writer "auth1.edn"))))
-  (edit-body))
+  (html5 [:p data]))
 
 
 (defn changename
@@ -139,5 +157,4 @@
   (POST "/changename" [uname name] (changename uname name))
   (POST "/changeage" [uname age] (changeage uname age))
   (POST "/changephone" [uname phone] (changephone uname phone))
-  (POST "/changeaddress" [uname address] (changeaddress uname address))
-  )
+  (POST "/changeaddress" [uname address] (changeaddress uname address)))

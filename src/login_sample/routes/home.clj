@@ -5,10 +5,12 @@
             [noir.response :refer [redirect]]
             [noir.session :as session]))
 
-(defn home [& [msg]]
+(defn home 
+  [& [msg]]
   (layout/common 
    [:h1 "Welcome!!"]
-   [:div#logincontainer [:h2 "Login to continue!"]
+   [:div#logincontainer 
+   [:h2 "Login to continue!"]
    [:form#login {:action "/" :method "POST"}
     [:p "Username"]
     [:input#uname.field {:type "text" :name "uname" :required ""}] 
@@ -17,8 +19,7 @@
     [:br]
     [:p msg]
     [:br]
-    [:input#loginbtn {:type "submit" :value "Login" }]]]
-   ))
+    [:input#loginbtn {:type "submit" :value "Login" }]]]))
 
 
 
@@ -31,15 +32,16 @@
        edn/read-string
        (filter #(= (:uname %) uname))
        first
-       ((fn [data] (if (nil? data)
-                       (home "User doesnt exist!!!")
-                       (if (= (:pass data) pass)
-                         ;;(str "Welcome  " (:name data))
-                         (do (session/put! :user uname) 
-                             (redirect "/screen1"))
-                         (home "Incorrect Password")))))
-       ))
+       ((fn 
+          [data] 
+          (if (nil? data) 
+            (home "User doesnt exist!!!")
+            (if (= (:pass data) pass)
+               (do
+                 (session/put! :user uname) 
+                 (redirect "/screen1"))
+               (home "Incorrect Password")))))))
+
 (defroutes home-routes
   (GET "/" [] (home ))
-  (POST "/" [uname pass] (validate uname pass))
-)
+  (POST "/" [uname pass] (validate uname pass)))
